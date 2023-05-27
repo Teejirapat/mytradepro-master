@@ -49,7 +49,6 @@
 │         ├──  candlestick.html
 │         ├──  Cryptocurrency.html
 │         ├──  divergence.html
-│         ├──  EURUSD_Candlestick_1_D_BID_04.05.2003-21.01.2023.csv
 │         ├──  Federalcurrency.html
 │         ├──  guide.html
 │         ├──  hello.html
