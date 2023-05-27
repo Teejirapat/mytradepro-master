@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DRTRADE.AI</title>
+        <link rel="icon" type="image/x-icon" href="https://profile.line-scdn.net/0hHPXA5lYZF39lOAIy2u1oKFl9GRISFhE3HQxaHkI4GktLDwN6C1ddEEAxHh8bCwcuDldbGhNtGRxO" />
+        <!--ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Dark mode -->
+        <link href="{{url_for('.static', filename='css/dark-mode.css')}}" rel="stylesheet" />
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!--LINE LIFF-->
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <!--sweetalert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-black" id="mainNav">
+            <div class="container px-5">                 
+                <a class="navbar-brand fw-bold bg-dark-text" href="./">DRTRADE.AI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">🌓 Dark Mode</label>
+                </div>
+                <!--check theme dark-->
+                <script>
+                    var mode = localStorage.getItem("darkSwitch")
+                    if (!mode){
+                        mode = 'light'
+                        document.body.removeAttribute("data-theme");
+                        localStorage.removeItem("darkSwitch","light");
+                    }
+                    else{
+                        document.body.setAttribute("data-theme", "dark");
+                        localStorage.setItem("darkSwitch", "dark");
+                    }
+                </script>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Guide
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="./keylevels">support and resistance</a>
+                                <a class="dropdown-item" href="./breakout">breakout</a>
+                                <a class="dropdown-item" href="./candlestick">candlestick</a>
+                                <a class="dropdown-item" href="./divergence">divergence</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./backtest">Backtest</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Cryptocurrency">Cryptocurrency</a></li>
+                        <!--<li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Federalcurrency">Federalcurrency</a></li>-->
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#download">Contact</a></li>
+
+                        <li class="nav-item"><div id="btnLogOut" class="dropdown">
+                            <img alt="Avatar" class="avatar" id="pictureUrl" style="width: 30px;height: 30px;border-radius: 50%;">
+                            <button style="margin-top: 5px;border-color: transparent;" class="dropdown-toggle c-dark bg-black" id="displayName" type="button" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu bg-black">
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./payment">Payment</a></li>
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./setting">Setting</a></li>
+                              <li  class="nav-item" onclick="logOut()"><a class="nav-link me-lg-3 bg-dark-text">Logout</a></li>
+                            </ul>
+                          </div>
+                          <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" onclick="logIn()" id="btnLogIn" data-bs-toggle="modal">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Login</span>
+                            </span>
+                        </button></li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+        <header class="masthead">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-12">
+                        <!-- Mashead text and app badges-->
+                        <div class="mb-5 mb-lg-0 text-lg">
+                            <h1 class="display-5 lh-sm mb-3 text-center">Support and Resistance (แนวรับ แนวต้าน)</h1>
+                            <p class="lead fw-normal text-muted mb-5 text-center">แนวรับ แนวต้าน คืออะไร ?  วิธีการดูแนวรับ แนวต้าน หนึ่งในกลยุทธ์ที่สำคัญ</p>
+                            <div class="d-flex flex-column flex-lg-row align-items-center">                     
+                                <img alt="SupportandResistance" class="img-fluid" src="{{url_for('.static', filename='img/SupportandResistance.png')}}">
+                            </div>
+                            <h4 class="mt-5 text-left">แนวรับคืออะไร?</h4>
+                            <div class="d-flex flex-column flex-lg-row align-items-center">                     
+                                <img alt="support" class="img-fluid" src="{{url_for('.static', filename='img/support.jpg')}}">
+                            </div>  
+                            <div class="text-left mt-3">
+                                แนวรับ (Support) หรือ แนวรับที่รับไว้ไม่ให้ตก หมายถึง ระดับราคาที่บ่อยครั้ง เมื่อราคามีการปรับตัวลงมา ณ บริเวณระดับราคานี้เมื่อไหร่ มักจะมีแรงซื้อเข้ามาช่วยผลักดันให้ราคามีการดีดกลับขึ้นไปได้ทุกที หากอธิบายให้เข้าใจง่ายขึ้น แนวรับ คือ เป็นระดับราคาที่มีความต้องการซื้อเกิดขึ้นบ่อยครั้งเมื่อราคามีการปรับลงไปบริเวณนั้น
+                            </div>
+                            <div class="text-left mt-2">
+                                วิธีการหาเส้นแนวรับ : ลากเส้นเชื่อมต่อระหว่างจุดต่ำสุดของระดับราคาหุ้นในช่วงเวลาใดเวลาหนึ่ง แต่เมื่อไรก็ตามที่ ราคาหลุดเส้นแนวรับสำคัญลง ราคาจะปรับตัวลงแรง !! 
+                            </div>
+                            
+                            <h4 class="mt-5 text-left">แนวต้านคืออะไร?</h4>
+                            <div class="d-flex flex-column flex-lg-row align-items-center">                     
+                                <img alt="resistance" class="img-fluid" src="{{url_for('.static', filename='img/resistance.jpg')}}">
+                            </div>
+                            <div class="text-left mt-3">
+                                แนวต้าน (Resistance) หรือ แนวต้านไว้ไม่ให้ขึ้นไป หมายถึง ระดับราคาที่บ่อยครั้ง เมื่อราคามีการปรับขึ้นไป ณ บริเวณระดับราคานี้เมื่อไหร่ มักจะมีแรงขายเข้ามากดดันไม่ให้ราคาสามารถปรับขึ้นไปได้ทุกที หากอธิบายให้เข้าใจง่ายขึ้น แนวต้าน คือ เป็นระดับราคาที่มีความต้องการขายเกิดขึ้นบ่อยครั้งเมื่อราคามีการปรับขึ้นไปบริเวณนั้น
+                            </div>
+                            <div class="text-left mt-2">
+                                วิธีการหาเส้นแนวต้าน : ลากเส้นเชื่อมต่อระหว่างจุดสูงสุดของระดับราคาหุ้นในช่วงเวลาใดเวลาหนึ่ง  แต่เมื่อไรก็ตามที่ราคาทะลุเส้นแนวต้านสำคัญขึ้น ราคาจะปรับตัวขึ้นแรง !! 
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <aside>
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-xl-12">
+                        <h1 class="display-5 lh-sm mb-3 text-center">ต่อยอดหากรอบของ Support and Resistance (แนวรับ แนวต้าน) </h1>
+                        <p class="lead fw-normal text-muted mb-5 text-center">กราฟ และ อินดิเคเตอร์ของ DRTRADE.AI สามารถใช้ได้ผ่าน tradingview (ลองลากเส้นหาแนวต้านแนวรับต้วยตนเองได้เลย!)</p>
+                        <div><!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container">
+                              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSDT/" rel="noopener" target="_blank"></a></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                              <script type="text/javascript">
+                                var Timeframe = "15"
+                              new TradingView.widget(
+                              {
+                              "symbol": "BTCUSDT",
+                              "interval": Timeframe,
+                              "timezone": "Asia/Bangkok",
+                              "theme": 'light',
+                              "style": "1",
+                              "locale": "th",
+                              "toolbar_bg": "#f1f3f6",
+                              "enable_publishing": false,
+                              "hide_top_toolbar": true,
+                              "hide_legend": true,
+                              "hide_side_toolbar": false,
+                              "width": "100%",
+                              "height": "650"
+                            }
+                              );
+                              </script>
+                            </div>
+                            <!-- TradingView Widget END -->
+                        </div>
+
+                        <h4 class="mt-5 text-left">แนวรับ แนวต้านมีประโยชน์อย่างไร</h4>
+
+                        <h4 class="mt-5 text-left">แนวรับ คือระดับราคาที่มีความต้องการซื้อมาก?</h4>
+                        <div class="text-left mt-3">
+                            คำนิยามของแนวรับ คือ ระดับราคาที่ต่ำกว่าราคาในปัจจุบัน ที่คาดการณ์ว่าจะมีความต้องการซื้อเข้ามาอย่างมากหรือมีคนสนใจซื้อเป็นจำนวนมาก ถ้าความต้องการซื้อมีเข้ามาที่ระดับราคาที่เป็นแนวรับจำนวนมากพอ ก็จะสามารถหยุดไม่ให้ราคาปรับตัวลดต่ำลงไปกว่าระดับราคาแนวรับ และ“อาจจะ”ทำให้ราคาที่กำลังปรับตัวลดลงเกิดการกลับตัวจากขาลงเป็นขาขึ้น โดยการหาแนวรับนิยมหาตอนที่ราคากำลังปรับตัวลดลง
+                        </div>
+                        <h4 class="mt-5 text-left">แนวต้าน คือระดับราคาที่มีคนต้องการขายมาก?</h4>
+                        <div class="text-left mt-3">
+                            แนวต้านในมุมมองของการวิเคราะห์ทางเทคนิคจะมีความหมายกลับกันกับแนวรับ ซึ่งคำนิยามของแนวต้าน คือ ระดับราคาที่สูงกว่าราคาปัจจุบัน ที่คาดการณ์ว่าจะมีความต้องการขายเข้ามาอย่างมาก หรือมีคนสนใจขายเป็นจำนวนมาก ถ้าความต้องการขายมีเข้ามาจำนวนมากพอจะสามารถหยุดไม่ให้ราคาเพิ่มขึ้นไปมากกว่าระดับราคาที่เป็นแนวต้าน และ“อาจจะ”ทำให้ราคาที่กำลังปรับตัวสูงขึ้นกลับตัวจากขาขึ้นเป็นขาลง โดยการหาแนวต้านนิยมหาตอนที่ราคากลับปรับตัวสูงขึ้น
+                        </div>
+                        <h4 class="mt-5 text-left">วิเคราะห์หากรอบแนวรับแนวตั้ง</h4>
+                        <div class="d-flex flex-column flex-lg-row align-items-center my-3">                     
+                            <img alt="SupportandResistance" class="img-fluid w-75" src="{{url_for('.static', filename='img/SupportandResistance.png')}}">
+                        </div>
+                        <div class="text-left mb-5">
+                            จากการลองหาแนวรับ แนวต้านเราก็ตั้งจุดสังเกตว่า ณ จุดราคาแนวรับแนวต้านนั้น มีราคาใกล้เคียงกัน แต่อาจจะไม่เท่ากัน เราจึงต้องกำหนดความกว้างของกรอบแนวรับแนวต้านเพื่อใช้หากรอบแนวรับ แนวต้านเป็นหนึ่งในกลยุทธ์ และ
+                            ต้องกำหนดจำนวนแท่งเทียนจากช่วงเวลาอดีต ถึง ปัจจุบัน ในที่นี้หมายถึงจำนวน <a href="./candlestick">candlestick (แท่งเทียน)</a> ที่จะใช้คำนวณหาแนวรับแนวต้าน
+                            เมื่อเราวิเคราะห์มาถึงตรงนี้ เราจะได้รับแนวรับแนวต้านโดยแบ่งการคำนวณตามจำนวน<a href="./candlestick">candlestick (แท่งเทียน)</a> เช่นกำหนดจำนวนแท่งเทียน 25 แท่ง แนวรับแนวต้านก็จะคำนวณหากรอบแนวรับแนวต้าน จากแท่งที่ 1 ถึง 25 และ เริ่มหากรอบแนวรับแนวต้านใหม่ไปเรื่อยๆ เหมือนภาพตัวอย่าง
+                        </div>
+                        <h4 class="mt-5 text-left">ประโยชน์</h4>
+                        <div class="text-left mb-5">
+                            เมื่อเรารู้จักหากรอบของแนวรับ แนวต้าน และวิธีการาจากการที่เราได้ลองหาเส้นแนวรับแนวต้านได้เองนั้น การนำแนวรับแนวต้านมาใช้เป็นกลยุทธ์หาจุดซื้อขายยังไม่แน่นอน เพราะช่วงราคาอยู่แนวรับ แนวต้านก็จะมีแรงซื้อขายจำนวนมากตามdemand supply(อุปสงค์ อุปทาน) หรือมีแรงซื้อขายที่ไม่แน่นอน ซึ่งความไม่แน่นอนนี้เราจึงต้องใช้กลยุทธ์อื่นเข้ามาช่วย นั้นคือ <a href="./breakout">Breakout (ศึกษาต่อได้กดลิ้งค์เลย)</a>
+                        </div>
+                    </div>           
+                </div>
+            </div>
+        </aside>
+        <section class="bg-gradient-primary-to-secondary" id="download">
+            <div class="container px-5">
+                <h2 class="text-center text-white font-alt mb-4">เพิ่มเราเป็นเพื่อนได้เลย!</h2>
+                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                    <a href="https://lin.ee/2N7v1xn"><img class="app-badge" style="border-radius:5px;" src="{{url_for('.static', filename='img/Logo_LINE-Account.png')}}" alt="..." /></a>
+                </div>                                       
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="c-dark text-50 small">
+                    <div class="mb-2">&copy; Your Website 2022. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Feedback Modal-->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Send feedback</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('.static', filename='js/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/scripts.js')}}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+        <!-- Dark mode -->
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.js')}}"></script>
+
+        <script>
+            var exp_alert = "{{exp_alert}}"
+
+            if(exp_alert){
+                liff.logout()
+                Swal.fire(
+                exp_alert,
+                'กรุณาล๊อกอินใหม่อีกครั้ง',
+                'question'
+                )
+            }
+        </script>
+        
+    </body>
+</html>
+

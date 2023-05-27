@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DRTRADE.AI</title>
+        <link rel="icon" type="image/x-icon" href="https://profile.line-scdn.net/0hHPXA5lYZF39lOAIy2u1oKFl9GRISFhE3HQxaHkI4GktLDwN6C1ddEEAxHh8bCwcuDldbGhNtGRxO" />
+        <!-- Dark mode -->
+        <link href="{{url_for('.static', filename='css/dark-mode.css')}}" rel="stylesheet" />
+        <!--ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!--LINE LIFF-->
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <!--table filter sort-->
+        <link href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+        <!--icon-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    </head>
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-black" id="mainNav">
+            <div class="container px-5">                 
+                <a class="navbar-brand fw-bold bg-dark-text" href="./">DRTRADE.AI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">🌓 Dark Mode</label>
+                  </div>
+                <!--check theme dark-->
+                <script>
+                    var mode = localStorage.getItem("darkSwitch")
+                    if (!mode){
+                        mode = 'light'
+                        document.body.removeAttribute("data-theme");
+                        localStorage.removeItem("darkSwitch","light");
+                    }
+                    else{
+                        document.body.setAttribute("data-theme", "dark");
+                        localStorage.setItem("darkSwitch", "dark");
+                    }
+                </script>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Cryptocurrency">Cryptocurrency</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Federalcurrency">Federalcurrency</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#download">Contact</a></li>
+
+                        <li class="nav-item"><div id="btnLogOut" class="dropdown">
+                            <img alt="Avatar" class="avatar" id="pictureUrl" style="width: 30px;height: 30px;border-radius: 50%;">
+                            <button style="margin-top: 5px;border-color: transparent;" class="dropdown-toggle c-dark bg-black" id="displayName" type="button" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu bg-black">
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./payment">Payment</a></li>
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./setting">Setting</a></li>
+                              <li  class="nav-item" onclick="logOut()"><a class="nav-link me-lg-3 bg-dark-text">Logout</a></li>
+                            </ul>
+                          </div>
+                          <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" onclick="logIn()" id="btnLogIn" data-bs-toggle="modal">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Login</span>
+                            </span>
+                        </button></li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+        <!-- Mashead header-->
+        <header class="masthead" style="padding-bottom: 0 !important;">
+            <div class="container px-5">
+                <div class="row gx-2 gy-2 align-items-center mx-auto">
+                    <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 10rem;">
+                                <div class="card-body">
+                                <div class="card-title text-center c-dark"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    </svg>
+                                </div>
+                                <p class="card-text text-center">overview</p>
+                                <a href="./Federalcurrency" class="stretched-link"></a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 10rem;">
+                                <div class="card-body">
+                                <div class="card-title text-center c-dark"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                    <path d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"/>
+                                  </svg>
+                                </div>
+                                <p class="card-text text-center">Candlestick</p>
+                                <a href="./Federalcurrency?category=Candlestick" class="stretched-link"></a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 10rem;">
+                                <div class="card-body">
+                                <div class="card-title text-center c-dark" style="transform: rotate(90deg);"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
+                                  </svg>
+                                </div>
+                                <p class="card-text text-center">Divergence</p>
+                                <a href="./Federalcurrency?category=Divergence" class="stretched-link"></a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 10rem;">
+                                <div class="card-body">
+                                <div class="card-title text-center c-dark"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-file-break" viewBox="0 0 16 16">
+                                    <path d="M0 10.5a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zM12 0H4a2 2 0 0 0-2 2v7h1V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v7h1V2a2 2 0 0 0-2-2zm2 12h-1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2H2v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2z"/>
+                                  </svg>
+                                </div>
+                                <p class="card-text text-center">Breakout</p>
+                                <a href="./Federalcurrency?category=Breakout" class="stretched-link"></a>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 12rem;">
+                                <div class="card-body">
+                                <div class="card-title text-center c-dark"><svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+                                  </svg>
+                                </div>
+                                <p class="card-text text-center">Support/Resistance</p>
+                                <a href="./Federalcurrency?category=Support-Resistance" class="stretched-link"></a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <form method="post">
+                    <div class="row mt-5 align-items-center mx-auto">
+                        <div class="col-lg-4 mx-auto">
+                            <div class="input-group">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#Tool" aria-expanded="false" aria-controls="Tool">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
+                                        </svg>
+                                </button>
+                                <input type="text" name="symbol" id="symbol" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" class="btn btn-primary">search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5 align-items-center mx-auto">
+                        <div class="col-lg-4 mx-auto">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="notifySwitch" onclick="checktable(this);">
+                                <label class="custom-control-label" for="notifySwitch">List view</label>
+                            </div>
+                        </div>       
+                    </div>
+                    <div class="collapse" id="Tool">
+                        <div class="row mt-1 align-items-center mx-auto">
+                            <div class="col-lg-4 mx-auto">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Category</li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Candlestick" value="Candlestick" id="Candlestick">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Candlestick
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Bullish-Divergence" value="Bullish-Divergence" id="Bullish-Divergence">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Bullish Divergence
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Bearish-Divergence" value="Bearish-Divergence" id="Bearish-Divergence">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Bearish Divergence
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Breakout" value="Breakout" id="Breakout">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Breakout
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Support" value="Support"  id="Support">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Support
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Resistance" value="Resistance"  id="Resistance">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Resistance
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mt-1 align-items-center mx-auto text">
+                            <div class="col-lg-4 mx-auto">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Trend</li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Bullish" value="Bullish" id="Bullish">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Bullish
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Bearish" value="Bearish" id="Bearish">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Bearish
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mt-1 align-items-center mx-auto">
+                            <div class="col-lg-4 mx-auto">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Timeframe</li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="15mn" value="15mn" id="15mn">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                15 Minutes
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="30mn" value="30mn" id="30mn">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                30 Minutes
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="60mn" value="60mn" id="60mn">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                1 hours
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="240mn" value="240mn" id="240mn">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                4 hours
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </header>        
+        <scction id="table_notify" style="display: none;">
+            <div class="container px-1">
+                <div class="row gx-2 gy-2 align-items-center mx-auto">
+                    <div class="col">
+                        <div class="card bg-black">
+                            <div class="card-body">
+                                <table class="table table-striped" id="table"
+                                data-show-columns="true"
+                                data-search="true"
+                                data-mobile-responsive="true"
+                                data-check-on-init="true"
+                                data-show-pagination-switch="true"
+                                data-pagination="true"
+                                data-id-field="id"
+                                data-page-size="25"
+                                data-page-list="[25, 50, 100, all]">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Datetime</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Last update</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Symbol</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Timeframe</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Trend</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Status</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">Close</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">RSI</th>
+                                        <th scope="col" class="bg-dark-text" data-sortable="true">STO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history">
+                                        {% for row in table_data %}
+                                            <tr>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['id']}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['ts']}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['Symbol'].split('(')[0]}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['Timeframe']}}</td>
+                                                {% if row['Trend'] == "Bullish" %}
+                                                    <td class="bg-dark-text" style="font-size: 10px;color: #34c86d !important;;">{{row['Trend']}}</td>
+                                                {% else %}
+                                                    <td class="bg-dark-text" style="font-size: 10px;color: #c52c2a !important;;">{{row['Trend']}}</td>
+                                                {% endif %}
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['Status']}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['Close']}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['RSI']}}</td>
+                                                <td class="bg-dark-text" style="font-size: 10px;">{{row['STO']}}</td>
+                                            </tr>   
+                                        {% endfor %} 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </scction>
+        <section id="card_notify" style="display: block;">
+            <div class="container px-1">
+                <div class="row gx-2 gy-2 align-items-center mx-auto">
+                    {% for row in table_data %}
+                    {% if loop.index  % 4 == 0%}
+                        <div class="row gx-2 gy-2 align-items-center mx-auto">
+                    {% else %}
+                    
+                        <div class="col-sm-auto mx-auto d-flex justify-content-center">
+                            <div class="card bg-black" style="width: 25rem;">
+                                <div class="card-body">
+                                <h5 class="card-title">{{row['Symbol']}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">CLOSE:{{row['Close']}}</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">RSI:{{row['RSI']}} STO:{{row['STO']}}</h6>
+                                <div><!-- TradingView Widget BEGIN -->
+                                    <div class="tradingview-widget-container">
+                                      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/{{row['Symbol'].split('(')[0]}}/" rel="noopener" target="_blank"></a></div>
+                                      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                                      <script type="text/javascript">
+                                        var mode = localStorage.getItem("darkSwitch")
+                                        if (!mode){
+                                            mode = 'light'
+                                        }
+                                        var Timeframe = "{{row['Symbol'].split('(')[1]}}"
+                                        Timeframe = Timeframe.replace(')','').replace('Minutes','').replace(' ','')
+                                      new TradingView.widget(
+                                      {
+                                      "autosize": true,
+                                      "symbol": "{{row['Symbol'].split('(')[0]}}",
+                                      "interval": Timeframe,
+                                      "timezone": "Asia/Bangkok",
+                                      "theme": mode,
+                                      "style": "1",
+                                      "locale": "en",
+                                      "toolbar_bg": "#f1f3f6",
+                                      "enable_publishing": false,
+                                      "hide_top_toolbar": true,
+                                      "hide_legend": true
+                                    }
+                                      );
+                                      </script>
+                                    </div>
+                                    <!-- TradingView Widget END -->
+                                </div>
+                                {% if row['Trend'] == "Bullish" %}
+                                    <div style="background-color: #34c86d;border-radius: 15px;">
+                                        <p class="card-text text-center">{{row['Status']}}</p>
+                                    </div>
+                                    <p class="card-text text-center">{{row['TEXT']}}</p>
+                                    <div class="card-text text-center">
+                                        <h5 style="display: inline;text-align: center;">เทรนด์:<h5 style="color:#34c86d;display: inline;text-align: center;">&nbsp;{{row['Trend']}}</h5></h5>
+                                    </div>
+                                {% else %}
+                                    <div style="background-color: #c52c2a;border-radius: 15px;">
+                                        <p class="card-text text-center">{{row['Status']}}</p>
+                                    </div>
+                                    <p class="card-text text-center">{{row['TEXT']}}</p>
+                                    <div class="card-text text-center">
+                                        <h5 style="display: inline;text-align: center;">เทรนด์:<h5 style="color:#c52c2a;display: inline;text-align: center;">&nbsp;{{row['Trend']}}</h5></h5>
+                                    </div>
+                                {% endif %}
+                                <hr/>
+                                <div>
+                                    <small class="text-muted" style="float: left;">{{row['ts']}}</small>
+                                    <small class="text-muted" style="float: right;">{{row['id']}}</small>
+                                </div>
+                                <a href="https://www.tradingview.com/chart/?symbol={{row['Symbol'].split('(')[0]}}" class="stretched-link"></a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- Quote/testimonial aside-->
+        <aside class="text-center bg-gradient-primary-to-secondary">
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-xl-8">
+                        <div class="h2 fs-2 text-white mb-4">"แก้ปัญหาเข้าซื้อขายไม่ทัน เช็คทิศทางของราคาคริปโต/สกุลเงินทั่วไปให้ทันเวลา"</div>
+                        <img src="{{url_for('.static', filename='img/tradingview.svg')}}" alt="..." style="height: 3rem" />
+                    </div>           
+                </div>
+            </div>
+        </aside>
+        <!-- App features section-->
+        <section id="features">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
+                        <div class="container-fluid px-5">
+                            <div class="row gx-5">
+                                <div class="col-md-6 mb-5">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt">Candlestick</h3>
+                                        <p class="text-muted mb-0"> รูปแบบของกราฟที่แสดงการเคลื่อนไหวของราคาสินทรัพย์ต่าง ๆ </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt">Divergence</h3>
+                                        <p class="text-muted mb-0">แนวโน้มสินทรัพย์เมื่อราคาและตัวบ่งชี้ RSI เคลื่อนที่ไปในทิศทางแยกออกจากกัน</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-5 mb-md-0">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt">Breakout</h3>
+                                        <p class="text-muted mb-0">การที่กราฟ มีราคาทะลุแนวรับ หรือแนวต้าน</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt">Support/Resistance</h3>
+                                        <p class="text-muted mb-0">ระดับของราคาที่ถูกประเมินว่า มีความสำคัญต่อการเคลื่อนไหวของราคา</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-5 mb-md-0">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt" style="color: #79FF55;">Bullish</h3>
+                                        <p class="text-muted mb-0">แนวโน้มกราฟขาขึ้น</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Feature item-->
+                                    <div class="text-center">
+                                        <h3 class="font-alt" style="color: #FF5555;">Bearish</h3>
+                                        <p class="text-muted mb-0">แนวโน้มกราฟดิ่งลง</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 order-lg-0">
+                        <!-- Features section device mockup-->
+                        <div class="features-device-mockup">
+                            <svg class="circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="circleGradient" gradientTransform="rotate(45)">
+                                        <stop class="gradient-start-color" offset="0%"></stop>
+                                        <stop class="gradient-end-color" offset="100%"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="50"></circle></svg><svg class="shape-1 d-none d-sm-block" viewBox="0 0 240.83 240.83" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(120.42 -49.88) rotate(45)"></rect>
+                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(-49.88 120.42) rotate(-45)"></rect></svg><svg class="shape-2 d-none d-sm-block" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"></circle></svg>
+                            <div class="device-wrapper">
+                                <div class="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
+                                    <div class="screen bg-black">
+                                        <img style="width: 100%;height: 100%;" src="{{url_for('.static', filename='img/line_flex.jpg')}}" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- App badge section-->
+        <section class="bg-gradient-primary-to-secondary" id="download">
+            <div class="container px-5">
+                <h2 class="text-center text-white font-alt mb-4">เพิ่มเราเป็นเพื่อนได้เลย!</h2>
+                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                    <a href="https://lin.ee/2N7v1xn"><img class="app-badge" style="border-radius:5px;" src="{{url_for('.static', filename='img/Logo_LINE-Account.png')}}" alt="..." /></a>
+                </div>                                       
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="text-white-50 small">
+                    <div class="mb-2">&copy; Your Website 2022. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Feedback Modal-->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Send feedback</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('.static', filename='js/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/scripts.js')}}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+        <!-- Dark mode -->
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.js')}}"></script>
+
+    </body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DRTRADE.AI</title>
+        <link rel="icon" type="image/x-icon" href="https://profile.line-scdn.net/0hHPXA5lYZF39lOAIy2u1oKFl9GRISFhE3HQxaHkI4GktLDwN6C1ddEEAxHh8bCwcuDldbGhNtGRxO" />
+        <!--ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Dark mode -->
+        <link href="{{url_for('.static', filename='css/dark-mode.css')}}" rel="stylesheet" />
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!--LINE LIFF-->
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <!--sweetalert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-black" id="mainNav">
+            <div class="container px-5">                 
+                <a class="navbar-brand fw-bold bg-dark-text" href="./">DRTRADE.AI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">🌓 Dark Mode</label>
+                </div>
+                <!--check theme dark-->
+                <script>
+                    var mode = localStorage.getItem("darkSwitch")
+                    if (!mode){
+                        mode = 'light'
+                        document.body.removeAttribute("data-theme");
+                        localStorage.removeItem("darkSwitch","light");
+                    }
+                    else{
+                        document.body.setAttribute("data-theme", "dark");
+                        localStorage.setItem("darkSwitch", "dark");
+                    }
+                </script>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Guide
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="./keylevels">support and resistance</a>
+                                <a class="dropdown-item" href="./breakout">breakout</a>
+                                <a class="dropdown-item" href="./candlestick">candlestick</a>
+                                <a class="dropdown-item" href="./divergence">divergence</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./backtest">Backtest</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Cryptocurrency">Cryptocurrency</a></li>
+                        <!--<li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Federalcurrency">Federalcurrency</a></li>-->
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#download">Contact</a></li>
+
+                        <li class="nav-item"><div id="btnLogOut" class="dropdown">
+                            <img alt="Avatar" class="avatar" id="pictureUrl" style="width: 30px;height: 30px;border-radius: 50%;">
+                            <button style="margin-top: 5px;border-color: transparent;" class="dropdown-toggle c-dark bg-black" id="displayName" type="button" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu bg-black">
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./payment">Payment</a></li>
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./setting">Setting</a></li>
+                              <li  class="nav-item" onclick="logOut()"><a class="nav-link me-lg-3 bg-dark-text">Logout</a></li>
+                            </ul>
+                          </div>
+                          <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" onclick="logIn()" id="btnLogIn" data-bs-toggle="modal">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Login</span>
+                            </span>
+                        </button></li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+        <header class="masthead">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-12">
+                        <!-- Mashead text and app badges-->
+                        <div class="mb-5 mb-lg-0 text-lg">
+                            <h1 class="display-5 lh-sm mb-3 text-center">Divergence pattern</h1>
+                            <p class="lead fw-normal text-muted mb-5 text-center">สัญญาณการเทรดที่เกิดจากเทรนด์ราคาสวนทางกับตัวชี้วัด (indicator)</p>
+                            <div class="d-flex flex-column flex-lg-row align-items-center">                     
+                                <img alt="SupportandResistance" class="img-fluid w-75" src="{{url_for('.static', filename='img/divergence.png')}}">
+                            </div>
+                            <h4 class="mt-5 text-left">Divergence</h4>
+                            <div class="text-left mt-3">
+                                Divergence ในทางเทคนิคการซื้อขายเหรียญคริปโตเป็นการแสดงถึงความแตกต่างระหว่างการเคลื่อนไหวของราคาของเหรียญคริปโตและตัวชี้วัด (indicator) ที่ใช้ในการวิเคราะห์แนวโน้มราคา ซึ่งตัวชี้วัดที่เราจะใช้คือ RSI (Relative Strength Index)
+                            </div>
+
+                            
+                            <h4 class="mt-5 text-left">RSI คืออะไร?</h4>
+                            <div class="text-left mt-3">
+                                RSI ย่อมาจาก Relative Strength Index เป็นเครื่องมือชี้วัดทางเทคนิคประเภท Momentum ใช้สำหรับวัดการแกว่งตัวของราคาว่ามีภาวะการซื้อมากเกินไป หรือ การขายมากเกินไป โดยมีค่าตั้งแต่ 0-100 โดยค่ามาตรฐานที่ใช้กันทั่วไปนั้นจะอยู่ที่ 30 และ 70 โดยหาก RSI อยู่ในระดับที่ตํ่ากว่า 30 จะถือว่าราคาอยู่ในภาวะ “ขายมากเกินไป” (Oversold) และหากมากกว่า 70 จะถือว่าราคาอยู่ในภาวะ “ซื้อมากเกินไป” (Overbought)
+                            </div>
+                            <div class="text-left mt-2">
+                                สรุป : RSI เป็นเครื่องมือตัวชี้วัดเทรนด์พฤติกรรมของเหล่านักเทรดว่าช่วงเวลานั้นมีการเทขาย หรือ เข้าซื้อจำนวนมากโดยคิดออกมาเป็นเปอร์เซ็นต์ ซึ่งหมายความว่าเมื่อมีการเทขายราคาก็จะตกและพฤติกรรมของมนุษย์ก็จะเข้าซื้อเมื่อเห็นของถูก หรือในทางตรงกันข้าม เมื่อมีการเข้าซื้อจำนวนมาก ราคาเหรียญก็จะสูง นักเทรดที่ถือเหรียญก็จะเทขายตามพฤติกรรมdemand supplyของมนุษย์ แต่ในตลาดจริงมันไม่ได้ง่าย การใช้ RSI เพียงอย่างเดียวในการซื้อขายหุ้นเป็นกลยุทธ์ที่เสี่ยงมากเราจึงต้องใช้เทคนิคอื่นเข้ามาช่วยวิเคราะห์กราฟ โดยใช้ค่า Divergence เป็นตัวบอกเทรนด์ราคา ณ ช่วงเวลานั้นเพื่อใช้เปรียบเทียบกับ RSI พฤติกรรมการชื่อขายของนักเทรดในการวิเคราะห์
+                            </div>
+
+                            <h4 class="mt-5 text-left">Divergence ในการวิเคราะห์เทคนิคมีทั้งหมด 4 ประเภทหลัก ได้แก่:</h4>
+                            <div class="text-left mt-2">
+                                1. Regular Bullish Divergence (แยกต่างกันในทิศทางกำลังขึ้น): เกิดขึ้นเมื่อราคาของหลักทรัพย์ลงต่ำลง ในขณะที่ตัวชี้วัด RSI แสดงให้เห็นว่ามีแนวโน้มขึ้น ซึ่งอาจเป็นสัญญาณว่าตลาดอาจกำลังเปลี่ยนแปลงแนวโน้มจากการลดลงไปเป็นการเพิ่มขึ้น
+                            </div>
+                            <div class="text-left mt-2">
+                                2. Regular Bearish Divergence (แยกต่างกันในทิศทางกำลังลง): เกิดขึ้นเมื่อราคาของหลักทรัพย์ขึ้นสูงขึ้น ในขณะที่ตัวชี้วัด RSI แสดงให้เห็นว่ามีแนวโน้มลง ซึ่งอาจเป็นสัญญาณว่าตลาดอาจกำลังเปลี่ยนแปลงแนวโน้มจากการเพิ่มขึ้นไปเป็นการลดลง
+                            </div>
+                            <div class="text-left mt-2">
+                                3. Hidden Bullish Divergence (แยกต่างกันซ่อนในทิศทางกำลังขึ้น): เกิดขึ้นเมื่อราคาของหลักทรัพย์ลงต่ำลง ในขณะที่ตัวชี้วัด RSI แสดงให้เห็นว่ามีแนวโน้มขึ้น ซึ่งอาจเป็นสัญญาณว่าตลาดอาจกำลังเปลี่ยนแปลงแนวโน้มจากการลดลงไปเป็นการเพิ่มขึ้น แต่ในกรณีนี้ราคาสูงขึ้นไม่เกินจุดสูงสุดเก่า
+                            </div>
+                            <div class="text-left mt-2">
+                                4. Hidden Bearish Divergence (แยกต่างกันซ่อนในทิศทางกำลังลง): เกิดขึ้นเมื่อราคาของหลักทรัพย์ขึ้นสูงขึ้น ในขณะที่ตัวชี้วัด RSI แสดงให้เห็นว่ามีแนวโน้มลง ซึ่งอาจเป็นสัญญาณว่าตลาดอาจกำลังเปลี่ยนแปลงแนวโน้มจากการเพิ่มขึ้นไปเป็นการลดลง แต่ในกรณีนี้ราคาลงไม่เกินจุดต่ำสุดเก่า
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <aside>
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-xl-12">
+                        <h1 class="display-5 lh-sm mb-3 text-center">ลองวิเคราะห์หา Divergence pattern</h1>
+                        <p class="lead fw-normal text-muted mb-5 text-center">กราฟ และ อินดิเคเตอร์ของ DRTRADE.AI สามารถใช้ได้ผ่าน tradingview (ลองลากเส้นหาแนวต้านแนวรับต้วยตนเองได้เลย!)</p>
+                        <div><!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container">
+                              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSDT/" rel="noopener" target="_blank"></a></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                              <script type="text/javascript">
+                                var Timeframe = "15"
+                              new TradingView.widget(
+                              {
+                              "symbol": "BTCUSDT",
+                              "interval": Timeframe,
+                              "timezone": "Asia/Bangkok",
+                              "theme": 'light',
+                              "style": "1",
+                              "locale": "th",
+                              "toolbar_bg": "#f1f3f6",
+                              "enable_publishing": false,
+                              "hide_top_toolbar": true,
+                              "hide_legend": true,
+                              "hide_side_toolbar": false,
+                              "width": "100%",
+                              "height": "650",
+                              "studies": [
+                                    "STD;Divergence%1Indicator"
+                                ]
+                            }
+                              );
+                              </script>
+                            </div>
+                            <!-- TradingView Widget END -->
+                        </div>
+
+
+                        <h4 class="mt-5 text-left">วิเคราะห์</h4>
+                        <div class="text-left mb-5">
+                            จากการใช้เทคนิค Divergence ที่ใช่เปรียบเทียบกับตัวชี้วัด RSI นั้น เราก็จะทราบเทรนด์ของกราฟราคา ณ ช่วงเวลานั้น ทำให้วิเคราะห์หาจุดเข้าซื้อขายได้ แต่ ในการเทรดตลาดจริงนั้น จากกราฟข้างบนหลายคนคงสงสัยว่าทำไม Divergence ขาขึ้นแต่เทรนด์กราฟกับส่วนทาง หรือช่วงราคาไม่ตรงตามที่ สัญญาณ Divergence บอก 
+                            เพราะเทรนด์ของกราฟมีพฤติกรรมที่ไม่ตรงตามเทคนิค Divergence หรือเรียกว่า สัญญาณหลอก เราจึงต้องใช้เทคนิคอื่นเข้ามาช่วย ไม่ว่าจะเป็นการใช้แนวต้าน แนวรับเพื่อหาจุดทำกำไร การใช้เทคนิค Breakout เพื่อหาเทรนด์กราฟ และการวิเคราะห์ candlestick แท่งเทียนแต่ละตัวเพื่อวิเคราะห์ ซึ่งสิ่งที่กล่าวมานี้เมื่อเอามาใช้รวมวิเคราะห์หาจุดเข้าซื้อขาย จึงเกิดเป็นกลยุทธ์ขึ้นมาจากการที่เรามั่นใจในแต่ละเทคนิคที่เรานั้นถนัด
+                        </div>
+                    </div>           
+                </div>
+            </div>
+        </aside>
+        <section class="bg-gradient-primary-to-secondary" id="download">
+            <div class="container px-5">
+                <h2 class="text-center text-white font-alt mb-4">เพิ่มเราเป็นเพื่อนได้เลย!</h2>
+                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                    <a href="https://lin.ee/2N7v1xn"><img class="app-badge" style="border-radius:5px;" src="{{url_for('.static', filename='img/Logo_LINE-Account.png')}}" alt="..." /></a>
+                </div>                                       
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="c-dark text-50 small">
+                    <div class="mb-2">&copy; Your Website 2022. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Feedback Modal-->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Send feedback</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('.static', filename='js/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/scripts.js')}}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+        <!-- Dark mode -->
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.js')}}"></script>
+
+        <script>
+            var exp_alert = "{{exp_alert}}"
+
+            if(exp_alert){
+                liff.logout()
+                Swal.fire(
+                exp_alert,
+                'กรุณาล๊อกอินใหม่อีกครั้ง',
+                'question'
+                )
+            }
+        </script>
+        
+    </body>
+</html>
+

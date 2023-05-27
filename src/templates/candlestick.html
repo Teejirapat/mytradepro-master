@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DRTRADE.AI</title>
+        <link rel="icon" type="image/x-icon" href="https://profile.line-scdn.net/0hHPXA5lYZF39lOAIy2u1oKFl9GRISFhE3HQxaHkI4GktLDwN6C1ddEEAxHh8bCwcuDldbGhNtGRxO" />
+        <!--ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Dark mode -->
+        <link href="{{url_for('.static', filename='css/dark-mode.css')}}" rel="stylesheet" />
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!--LINE LIFF-->
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <!--sweetalert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-black" id="mainNav">
+            <div class="container px-5">                 
+                <a class="navbar-brand fw-bold bg-dark-text" href="./">DRTRADE.AI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">🌓 Dark Mode</label>
+                </div>
+                <!--check theme dark-->
+                <script>
+                    var mode = localStorage.getItem("darkSwitch")
+                    if (!mode){
+                        mode = 'light'
+                        document.body.removeAttribute("data-theme");
+                        localStorage.removeItem("darkSwitch","light");
+                    }
+                    else{
+                        document.body.setAttribute("data-theme", "dark");
+                        localStorage.setItem("darkSwitch", "dark");
+                    }
+                </script>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Guide
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="./keylevels">support and resistance</a>
+                                <a class="dropdown-item" href="./breakout">breakout</a>
+                                <a class="dropdown-item" href="./candlestick">candlestick</a>
+                                <a class="dropdown-item" href="./divergence">divergence</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./backtest">Backtest</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Cryptocurrency">Cryptocurrency</a></li>
+                        <!--<li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Federalcurrency">Federalcurrency</a></li>-->
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#download">Contact</a></li>
+
+                        <li class="nav-item"><div id="btnLogOut" class="dropdown">
+                            <img alt="Avatar" class="avatar" id="pictureUrl" style="width: 30px;height: 30px;border-radius: 50%;">
+                            <button style="margin-top: 5px;border-color: transparent;" class="dropdown-toggle c-dark bg-black" id="displayName" type="button" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu bg-black">
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./payment">Payment</a></li>
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./setting">Setting</a></li>
+                              <li  class="nav-item" onclick="logOut()"><a class="nav-link me-lg-3 bg-dark-text">Logout</a></li>
+                            </ul>
+                          </div>
+                          <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" onclick="logIn()" id="btnLogIn" data-bs-toggle="modal">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Login</span>
+                            </span>
+                        </button></li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+
+        <header class="masthead">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-12">
+                        <!-- Mashead text and app badges-->
+                        <div class="mb-5 mb-lg-0 text-lg">
+                            <h1 class="display-5 lh-sm mb-3 text-center">candlestick (แท่งเทียน)</h1>
+                            <div class="d-flex flex-column flex-lg-row align-items-center">                     
+                                <img alt="candlestick" class="img-fluid mx-auto" src="{{url_for('.static', filename='img/candlestick.png')}}">
+                            </div>
+                            <div class="text-left mt-3">                            
+                                Candlestick (แท่งเทียน) คือ รูปแบบหนึ่งในการแสดงข้อมูลกราฟเทคนิคในการวิเคราะห์และการศึกษาแนวโน้มของราคาในการซื้อขายหลักทรัพย์ เช่น หุ้น ค่าเงิน หรือสินทรัพย์อื่นๆ แท่งเทียนจะแสดงราคาเปิด ราคาปิด ราคาสูงสุด ราคาต่ำสุดของหลักทรัพย์ในระยะเวลาที่กำหนด (เช่น 1 วัน 1 ชั่วโมง หรือ 15 นาที)
+                                แต่ละแท่งเทียนประกอบด้วยส่วนหนึ่งที่เรียกว่า "body" (ตัวเลขระหว่างราคาเปิดและราคาปิด) และส่วนที่เรียกว่า "wick" หรือ "shadow" (เส้นที่ยื่นออกมาจากตัวแท่งเทียนทั้งสองข้าง) โดยเส้นบนแท่งเทียนแสดงราคาสูงสุดของหลักทรัพย์ในช่วงเวลานั้น และเส้นล่างแท่งเทียนแสดงราคาต่ำสุดของหลักทรัพย์ในช่วงเวลานั้น รูปร่างและสีของแท่งเทียนยังสามารถแสดงถึงการเคลื่อนไหวของราคาอย่างละเอียดมากขึ้น หากแท่งเทียนมีสีเขียวหรือขาวจะแสดงถึงการขึ้นของราคา ในขณะที่แท่งเทียนสีแดงหรือดำจะแสดงถึงการลงของราคา
+                                Candlestick pattern รูปแบบแท่งเทียนนั้นมีอยู่หลายแบบ (สามารถศึกษาแต่ละรูปแบบใน เว็บ <a href="https://www.vlearn.world/knowledge/view/400/Financial-investment%20--Understanding-Basic-Candlestick-Charts" target="_blank">link</a> )
+                                เช่น
+                            </div>  
+
+                            <h4 class="mt-5 text-left">Bearish Engulfing</h4>
+                            <img alt="bearishengulfing" class="img-fluid mx-auto" src="{{url_for('.static', filename='img/bearishengulfing.png')}}">
+                            <div class="text-left mt-3">
+                                คือสัญญาณทางเทคนิคที่ส่งสัญญาณบอกการกลับตัวของราคาเป็นขาลง ซึ่งเกิดในสภาวะตลาดขาขึ้น โดยสัญญาณจะเกิดขึ้นเมื่อมีแท่งเทียนสีแดงแท่งที่ 2 มีเนื้อเทียนใหญ่กว่าเนื้อเทียนสีเขียวแท่งที่ 1 ซึ่งเนื้อเทียนแท่งสีแดงที่ใหญ่กว่าจะต้องครอบคลุมเนื้อเทียนแท่งสีเขียวก่อนหน้าด้วย โดยสัญญาณ Bearish Engulfing นั้นแสดงให้เห็นการเกิดแรงซื้อเพียงเล็กน้อยในช่วงตลาดขาขึ้น แต่หลังจากนั้นได้เกิดแรงเทขายอย่างหนัก แสดงถึงการเข้าสู่สภาวะตลาดขาลง 
+                            </div>
+
+                            <h4 class="mt-5 text-left">Bullish Engulfing</h4>
+                            <img alt="bullishengulfing" class="img-fluid mx-auto" src="{{url_for('.static', filename='img/bullishengulfing.png')}}">
+                            <div class="text-left mt-3">
+                                คือสัญญาณทางเทคนิคที่ส่งสัญญาณบอกการกลับตัวของราคาเป็นขาขึ้น ซึ่งเกิดในสภาวะตลาดขาลง โดยสัญญาณจะเกิดขึ้นเมื่อมีแท่งเทียนสีเขียวแท่งที่ 2 มีเนื้อเทียนใหญ่กว่าเนื้อเทียนสีแดงแท่งที่ 1 ซึ่งเนื้อเทียนแท่งสีเขียวที่ใหญ่กว่าจะต้องครอบคลุมเนื้อเทียนแท่งสีแดงก่อนหน้าด้วย โดยสัญญาณ Bullish Engulfing นั้นแสดงให้เห็นการเกิดแรงขายเพียงเล็กน้อยในช่วงตลาดลงขึ้น แต่หลังจากนั้นได้เกิดแรงซื้ออย่างหนัก แสดงถึงการเข้าสู่สภาวะตลาดขาขึ้น 
+                            </div>
+
+                            <h4 class="mt-5 text-left">Bullish Harami & Bearish Harami</h4>
+                            <img alt="Harami" class="img-fluid mx-auto" src="{{url_for('.static', filename='img/Harami.jpg')}}">
+                            <div class="text-left mt-3">
+                                Bullish Harami เป็นสัญญาณที่บ่งบอกว่าราคากำลังจะเป็นขาขึ้น เกิดขึ้นในสภาวะตลาดขาลง ซึ่งราคาวันก่อนหน้าได้มีการปรับตัวลดลงเป็นอย่างมาก แต่ในวันถัดมาราคามีการฟื้นตัวแต่ไม่เกินราคาสูงสุดของวันก่อนหน้า โดยแท่งเทียนสีแดงแท่งที่ 1 มีเนื้อเทียนที่ใหญ่กว่าแท่งเทียนสีเขียวแท่งที่ 2 
+                            </div>
+                            <div class="text-left mt-3">
+                                Bearish Harami เป็นสัญญาณที่บ่งบอกว่าราคากำลังจะเป็นขาลง เกิดขึ้นในสภาวะตลาดขาขึ้น ซึ่งราคาวันก่อนหน้าได้เพิ่มขึ้นสูงเป็นอย่างมาก แต่ในวันถัดมาราคามีการปรับตัวลดลงแต่ไม่เกินราคาต่ำสุดของวันก่อนหน้า โดยแท่งเทียนสีเขียวแท่งที่ 1 มีเนื้อเทียนที่ใหญ่กว่าแท่งเทียนสีแดงแท่งที่ 2 
+                            </div>
+
+
+                            <h4 class="mt-5 text-left">Hammer & Hanging man</h4>
+                            <img alt="hangingman" class="img-fluid mx-auto" src="{{url_for('.static', filename='img/hangingman.jpg')}}">
+                            <div class="text-left mt-3">
+                                กราฟแท่งเทียนที่เป็นสัญญาณบอกการกลับตัวของราคา ซึ่งเกิดขึ้นในสภาวะตลาดขาขึ้น เป็นการส่งสัญญาณเตือนว่าราคากำลังเริ่มจะมีการปรับตัวลง ด้วยรูปร่างตัวแท่งเทียนที่สั้น แต่ไส้เทียนล่างยาว Hanging Man เกิดขึ้นเมื่อนักลงทุนจำนวนมากเทขายหลักทรัพย์หลังจากตลาดเปิด ทำให้ราคาหลักทรัพย์ลดลงอย่างมาก แต่หลังจากนั้นก็มีแรงซื้อ ผลักดันราคาให้กลับมาอยู่ใกล้เคียงราคาเปิด
+                            </div>
+                                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="bg-gradient-primary-to-secondary" id="download">
+            <div class="container px-5">
+                <h2 class="text-center text-white font-alt mb-4">เพิ่มเราเป็นเพื่อนได้เลย!</h2>
+                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                    <a href="https://lin.ee/2N7v1xn"><img class="app-badge" style="border-radius:5px;" src="{{url_for('.static', filename='img/Logo_LINE-Account.png')}}" alt="..." /></a>
+                </div>                                       
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="c-dark text-50 small">
+                    <div class="mb-2">&copy; Your Website 2022. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Feedback Modal-->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Send feedback</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('.static', filename='js/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/scripts.js')}}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+        <!-- Dark mode -->
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.js')}}"></script>
+
+        <script>
+            var exp_alert = "{{exp_alert}}"
+
+            if(exp_alert){
+                liff.logout()
+                Swal.fire(
+                exp_alert,
+                'กรุณาล๊อกอินใหม่อีกครั้ง',
+                'question'
+                )
+            }
+        </script>
+        
+    </body>
+</html>

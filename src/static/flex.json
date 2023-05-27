@@ -1,0 +1,175 @@
+{
+    "type": "bubble",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "text",
+              "text": "BTCUSDT",
+              "color": "#000000",
+              "size": "md",
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "text",
+              "text": "RSI: 67.01%",
+              "size": "sm",
+              "wrap": true,
+              "flex": 2
+            },
+            {
+              "type": "text",
+              "text": "STO: 67.01%",
+              "size": "sm",
+              "wrap": true,
+              "flex": 2
+            },
+            {
+              "type": "text",
+              "text": "CLOSE: 147.413$",
+              "size": "sm",
+              "wrap": true,
+              "flex": 4
+            }
+          ]
+        }
+      ],
+      "action": {
+        "type": "uri",
+        "label": "action",
+        "uri": "https://www.tradingview.com/chart/?symbol=TSXV%3APNG",
+        "altUri": {
+          "desktop": "https://www.tradingview.com/chart/?symbol=TSXV%3APNG"
+        }
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "text",
+              "text": "Candle : Dark Cloud Cover",
+              "color": "#FFFFFF",
+              "size": "md",
+              "align": "center",
+              "weight": "bold"
+            }
+          ],
+          "backgroundColor": "#C72C0D",
+          "cornerRadius": "25px"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "lg",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "แนวรับ ผู้เล่นในตลาดกลัว Bearish เทขาย",
+                  "wrap": true,
+                  "size": "md",
+                  "flex": 5,
+                  "weight": "bold",
+                  "align": "center"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "เทรนด์ : ",
+                  "size": "xl",
+                  "align": "end",
+                  "weight": "bold"
+                },
+                {
+                  "type": "text",
+                  "size": "xl",
+                  "wrap": true,
+                  "text": "Bearish",
+                  "color": "#C72C0D",
+                  "weight": "bold",
+                  "align": "start"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "contents": [],
+              "borderColor": "#4A4A4A",
+              "borderWidth": "light"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "text",
+              "text": "เกิดขึ้นเมื่อ 14 นาทีที่แล้ว",
+              "align": "center",
+              "weight": "bold",
+              "size": "sm"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "text",
+              "text": "2022-10-15 20:01:16",
+              "size": "xxs",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "เข้าถึง tradingview",
+              "size": "xxs",
+              "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": "https://www.tradingview.com/chart/?symbol=BTCUSDT"
+              },
+              "color": "#8AB3FF"
+            }
+          ]
+        }
+      ]
+    }
+  }

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DRTRADE.AI</title>
+        <link rel="icon" type="image/x-icon" href="https://profile.line-scdn.net/0hHPXA5lYZF39lOAIy2u1oKFl9GRISFhE3HQxaHkI4GktLDwN6C1ddEEAxHh8bCwcuDldbGhNtGRxO" />
+        <!-- Dark mode -->
+        <link href="{{url_for('.static', filename='css/dark-mode.css')}}" rel="stylesheet" />
+        <!--ajax-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('.static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!--LINE LIFF-->
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <!--table filter sort-->
+        <link href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+        <!--icon-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+        <!--sweetalert-->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm bg-black" id="mainNav">
+            <div class="container px-5">                 
+                <a class="navbar-brand fw-bold bg-dark-text" href="./">DRTRADE.AI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">🌓 Dark Mode</label>
+                  </div>
+                <!--check theme dark-->
+                <script>
+                    var mode = localStorage.getItem("darkSwitch")
+                    if (!mode){
+                        mode = 'light'
+                        document.body.removeAttribute("data-theme");
+                        localStorage.removeItem("darkSwitch","light");
+                    }
+                    else{
+                        document.body.setAttribute("data-theme", "dark");
+                        localStorage.setItem("darkSwitch", "dark");
+                    }
+                </script>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Guide
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="./keylevels">support and resistance</a>
+                                <a class="dropdown-item" href="./breakout">breakout</a>
+                                <a class="dropdown-item" href="./candlestick">candlestick</a>
+                                <a class="dropdown-item" href="./divergence">divergence</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./backtest">Backtest</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Cryptocurrency">Cryptocurrency</a></li>
+                        <!--<li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./Federalcurrency">Federalcurrency</a></li>-->
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="#download">Contact</a></li>
+
+                        <li class="nav-item"><div id="btnLogOut" class="dropdown">
+                            <img alt="Avatar" class="avatar" id="pictureUrl" style="width: 30px;height: 30px;border-radius: 50%;">
+                            <button style="margin-top: 5px;border-color: transparent;" class="dropdown-toggle c-dark bg-black" id="displayName" type="button" data-bs-toggle="dropdown"></button>
+                            <ul class="dropdown-menu bg-black">
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./payment">Payment</a></li>
+                              <li  class="nav-item"><a class="nav-link me-lg-3 bg-dark-text" href="./setting">Setting</a></li>
+                              <li  class="nav-item" onclick="logOut()"><a class="nav-link me-lg-3 bg-dark-text">Logout</a></li>
+                            </ul>
+                          </div>
+                          <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" onclick="logIn()" id="btnLogIn" data-bs-toggle="modal">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Login</span>
+                            </span>
+                        </button></li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+        <!-- Mashead header-->
+        <header class="masthead" style="padding-bottom: 0 !important;">
+            <div class="container px-5">
+                <form method="post">
+                    <div class="row mt-5 align-items-center mx-auto">
+                        {% for row in alert %}
+                        <div class="col-lg-4 mx-auto">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="{{row['title']}}_ON" name="{{row['title']}}_ON">
+                                <label class="custom-control-label">OFF/ON</label>
+                            </div>
+                            <div class="card bg-black mx-auto">
+                                <div class="card-body">
+                                    <div class="card-title text-center c-dark">
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}" aria-expanded="false" aria-controls="{{row['title']}}">
+                                            <img id="{{row['title']}}_img" fill="currentcolor" class="c-dark">
+                                        </button>
+                                        <p class="card-text text-center">{{row['title']}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--check alert bell-->
+                            <script>
+                                var alert = "{{row['title']}}_ON"
+                                var bell = "{{row['title']}}_img"
+                                if (alert.checked == true){
+                                    document.getElementById(bell).src = "data:image/png;base64,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";
+                                } 
+                                else {
+                                    document.getElementById(bell).src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFcElEQVR4nO1bTUhcVxT+YifWn6CmWSgSERJjKupCRfEnpZVaBCFYbe2qrQurxgjiwoWI0SFG8AcFNYqiCErLbFwYshAXLgRNa+JYKwghtNEqxCBkmvovOp5yH68y9Scz771znbHtBwfkOe/c+33v3vvuuec84H9IxxUAOQDMACwArACWANgAHKhmU69Z1d+Y1XvEvecSHwKoB/AzADsA0mni3hkADwDchIfjIoB8AFMGCDuznwB8C8AEDyNeAmBBIvGj9hJAsScI8RGAuTMkftR+AXDLHcR9AXSrCxi52UQfugD4nBX5mwBmPYD4UZsHEC2b/KcA1jyA7Gn2J4B0WeQ/B7DtASSd2S6Ar7jJ5wHY9wByrpro6xdc5NMB7HgAKT0j4TOOHd0ad+cuXLhAeXl51N7eTo2NjZSUlCRLhLcAbugl76NuZVk75ePjQ6Ojo+QIu91OZrNZlghz6mtbM7pldKipqUkhbbVaqaCggEpLS2lhYYEODg4oMzNTlggPtZK/JWuTY7PZFML+/v6H18LCwmhjY4OGhoZkCSC4pLpK3iRro2MymZQn3dvbe+x/4+PjikkS4O+pIOIWpyiR2Amam5ujiYkJio6OptTUVGUBFH8vLy8ri6LMtgEUOSN/UVZUFxcXR52dnbSyskKnYX5+nmpra+nq1auyBPjNWQSZz92omOv9/f3K0HcVm5ubVFlZqbwuJYjwzbsEeMrZWGBgIE1PT5NeDAwMyBDhyWnkI7nVHh4eJqOoqqqSMQpOPF6r52wkNzeXOLCzs0MRERHcAtw/SYBZzkaMDP2j6Ovr4xbg2VHyVwye3v7D4uPjiRPb29t06dIl7mjxsqMAuZwKV1dXEzdu377NPQrE+cYhzJzOJycn2QXo6uriFuCeowAWLse+vr60t7fHLsCLFy+4BfjeUQArl+PExESSAbGRCggIkLYQLnM5FiGuLKSlpXEK8LujAG+5HLe2tkoT4O7du5wCiITsIfa4HI+MjEgToKOjg1MAwZlfAHHYIQtjY2PSBHjL4dTPz08535MFEUrLmgLLHE7FIiUboaGhUhZBK4fTsrIy6QJkZ2dLeQ1aOJxaLBbpAtTX10vZCJmNOqyoqKCzwPr6OiUnJ7NvhXOMOCsuLqazhDhaj42NNSpAtqMAH+gNh6Oiomh3d5fOGouLixQUFMQWDkNvGkwkM9yFtrY2vQKIs89jeKDVkbe3N62trblNgFevXukVQKx5xxDpKZGfFgQHB+sRQHA9EZpq/HJyctzNX3kIXMfiUIsQXXZWVFTERkRL4sQR4vRZowBfw0lq7KWrzu7cuXNqx7a2tpTDTKOiCB/7+/un/iY/P581NQa1AtMlh4WFhUonX79+TUtLSwpp2RBtrK6uKvkCgZKSEi0CfAfO9Pj169eVENVdmJqaopSUFC3pcZdLa9O0FEgkJCTQ4ODgO4cqF0S4/fjxY8rIyNDy5MUmLwUa0aVxcaHIyEhqaWlRpgM3nj9/TnV1dRQeHq510RPWDp1FUjM6GiMvLy9laIoEiZgiIt2tFW/evKFHjx5ReXk5xcTE6CHtWFCtq0gK6oZBlJ8a6YAiyLVr1ygrK0shVFNTQ83NzdTT00Pd3d3U0NCgZIHFWyU9PZ1CQkIMtedgfwCIgEF8ck5KZE8qlMwAE748h6WyIt/5nyyW3pFRLO04HdiSKBJMzPmPIRk3ZJTQMtgMx4Kn5RX50EM+mbGr7/n34QYkcFeWabRZLSWwsmACUKhGWmdF/FcABQDegwfBpBYh/iiR+BM1nnf794Ku7CDvq9kXI/uHfdWH2ciHD+7GZfUMXiQifgAwDWBRTU7aVbOp156pv7mn3hPk7s7j346/AOroaNjZn0d9AAAAAElFTkSuQmCC";
+                                }
+                                document.getElementById(alert).addEventListener("click", validate);
+                                 function validate() {
+                                    var alert = "{{row['title']}}_ON"
+                                    var bell = "{{row['title']}}_img"
+
+                                    if (document.getElementById(alert).checked) {
+                                        document.getElementById(bell).src = "data:image/png;base64,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";
+                                    } 
+                                    else {
+                                        document.getElementById(bell).src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFcElEQVR4nO1bTUhcVxT+YifWn6CmWSgSERJjKupCRfEnpZVaBCFYbe2qrQurxgjiwoWI0SFG8AcFNYqiCErLbFwYshAXLgRNa+JYKwghtNEqxCBkmvovOp5yH68y9Scz771znbHtBwfkOe/c+33v3vvuuec84H9IxxUAOQDMACwArACWANgAHKhmU69Z1d+Y1XvEvecSHwKoB/AzADsA0mni3hkADwDchIfjIoB8AFMGCDuznwB8C8AEDyNeAmBBIvGj9hJAsScI8RGAuTMkftR+AXDLHcR9AXSrCxi52UQfugD4nBX5mwBmPYD4UZsHEC2b/KcA1jyA7Gn2J4B0WeQ/B7DtASSd2S6Ar7jJ5wHY9wByrpro6xdc5NMB7HgAKT0j4TOOHd0ad+cuXLhAeXl51N7eTo2NjZSUlCRLhLcAbugl76NuZVk75ePjQ6Ojo+QIu91OZrNZlghz6mtbM7pldKipqUkhbbVaqaCggEpLS2lhYYEODg4oMzNTlggPtZK/JWuTY7PZFML+/v6H18LCwmhjY4OGhoZkCSC4pLpK3iRro2MymZQn3dvbe+x/4+PjikkS4O+pIOIWpyiR2Amam5ujiYkJio6OptTUVGUBFH8vLy8ri6LMtgEUOSN/UVZUFxcXR52dnbSyskKnYX5+nmpra+nq1auyBPjNWQSZz92omOv9/f3K0HcVm5ubVFlZqbwuJYjwzbsEeMrZWGBgIE1PT5NeDAwMyBDhyWnkI7nVHh4eJqOoqqqSMQpOPF6r52wkNzeXOLCzs0MRERHcAtw/SYBZzkaMDP2j6Ovr4xbg2VHyVwye3v7D4uPjiRPb29t06dIl7mjxsqMAuZwKV1dXEzdu377NPQrE+cYhzJzOJycn2QXo6uriFuCeowAWLse+vr60t7fHLsCLFy+4BfjeUQArl+PExESSAbGRCggIkLYQLnM5FiGuLKSlpXEK8LujAG+5HLe2tkoT4O7du5wCiITsIfa4HI+MjEgToKOjg1MAwZlfAHHYIQtjY2PSBHjL4dTPz08535MFEUrLmgLLHE7FIiUboaGhUhZBK4fTsrIy6QJkZ2dLeQ1aOJxaLBbpAtTX10vZCJmNOqyoqKCzwPr6OiUnJ7NvhXOMOCsuLqazhDhaj42NNSpAtqMAH+gNh6Oiomh3d5fOGouLixQUFMQWDkNvGkwkM9yFtrY2vQKIs89jeKDVkbe3N62trblNgFevXukVQKx5xxDpKZGfFgQHB+sRQHA9EZpq/HJyctzNX3kIXMfiUIsQXXZWVFTERkRL4sQR4vRZowBfw0lq7KWrzu7cuXNqx7a2tpTDTKOiCB/7+/un/iY/P581NQa1AtMlh4WFhUonX79+TUtLSwpp2RBtrK6uKvkCgZKSEi0CfAfO9Pj169eVENVdmJqaopSUFC3pcZdLa9O0FEgkJCTQ4ODgO4cqF0S4/fjxY8rIyNDy5MUmLwUa0aVxcaHIyEhqaWlRpgM3nj9/TnV1dRQeHq510RPWDp1FUjM6GiMvLy9laIoEiZgiIt2tFW/evKFHjx5ReXk5xcTE6CHtWFCtq0gK6oZBlJ8a6YAiyLVr1ygrK0shVFNTQ83NzdTT00Pd3d3U0NCgZIHFWyU9PZ1CQkIMtedgfwCIgEF8ck5KZE8qlMwAE748h6WyIt/5nyyW3pFRLO04HdiSKBJMzPmPIRk3ZJTQMtgMx4Kn5RX50EM+mbGr7/n34QYkcFeWabRZLSWwsmACUKhGWmdF/FcABQDegwfBpBYh/iiR+BM1nnf794Ku7CDvq9kXI/uHfdWH2ciHD+7GZfUMXiQifgAwDWBRTU7aVbOp156pv7mn3hPk7s7j346/AOroaNjZn0d9AAAAAElFTkSuQmCC";
+                                    }
+                                }
+                            </script>
+                            <div id="{{row['title']}}" class="collapse pt-2">
+                                <div class="card bg-black">
+                                    <div class="card-body">
+                                    <input type="color" class="card-title form-control" name="{{row['title']}}_color" id="{{row['title']}}_color" value="#000000">
+                                    <input  class="card-title form-control" name="{{row['title']}}_name" id="{{row['title']}}_name" type="text" placeholder="ตั้งชื่อป้ายแจ้งเตือน" maxlength="10">
+                                    <ul class="list-group mb-2">
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_crypto" aria-expanded="false" aria-controls="{{row['title']}}_crypto">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg"></img>cryptocurrency</li>
+                                        </button>
+                                        {% for row2 in crypto %}
+                                        <div id="{{row['title']}}_crypto" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_cryptocurrency" id="{{row['title']}}_cryptocurrency" value="{{row2['Symbol']}}">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    {{row2['Symbol']}}
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+                                        {% endfor %} 
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_federal" aria-expanded="false" aria-controls="{{row['title']}}_federal">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://img.icons8.com/color/48/null/currency-exchange.png"></img>federalcurrency</li>
+                                        </button>
+                                        {% for row3 in forex %}
+                                        <div id="{{row['title']}}_federal" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_federalcurrency" id="{{row['title']}}_federalcurrency" value="{{row3['Symbol']}}">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    {{row3['Symbol']}}
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+                                        {% endfor %} 
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_Candlestick" aria-expanded="false" aria-controls="{{row['title']}}_Candlestick">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://img.icons8.com/external-basicons-color-edtgraphics/50/null/external-candlestick-chart-charts-edtim-flat-edtim.png"></img>Candlestick</li>
+                                        </button>
+                                        <div id="{{row['title']}}_Candlestick" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Bearish Engulfing">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bearish Engulfing
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Bullish Engulfing">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bullish Engulfing
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Dragonfly">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Dragonfly
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Gravestone">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Gravestone
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Shooting Star">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Shooting Star
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Morning Star">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Morning Star
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Tweezer Bottom">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Tweezer Bottom
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Tweezer Top">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Tweezer Top
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Dark Cloud">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Dark Cloud
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Piercing">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Piercing
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Bullish Harami">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bullish Harami
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Bearish Harami">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bearish Harami
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Hanging Man">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Hanging Man
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Hammer">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Hammer
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_candlestick" value="Doji">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Doji
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+                                        
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_Category" aria-expanded="false" aria-controls="{{row['title']}}_Category">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://img.icons8.com/fluency/48/null/diversity.png"></img>Category</li>
+                                        </button>
+                                        <div id="{{row['title']}}_Category" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Category" value="Bullish Divergence">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bullish Divergence
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Category" value="Bearish Divergence">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bearish Divergence
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Category" value="Breakout">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Breakout
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Category" value="Support">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Support
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Category" value="Resistance">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Resistance
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_Trend" aria-expanded="false" aria-controls="{{row['title']}}_Trend">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/null/external-trends-market-research-flaticons-flat-flat-icons.png"></img>Trend</li>
+                                        </button>
+                                        <div id="{{row['title']}}_Trend" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Trend" value="Bullish">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bullish
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Trend" value="Bearish">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Bearish
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+
+                                        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{row['title']}}_Timeframe" aria-expanded="false" aria-controls="{{row['title']}}_Timeframe">
+                                            <li class="list-group-item"><img style="width:10%;height:10%;" src="https://img.icons8.com/stickers/100/null/timecode.png"></img>Timeframe</li>
+                                        </button>
+                                        <div id="{{row['title']}}_Timeframe" class="collapse">
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Timeframe" value="15">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    15 Minutes
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Timeframe" value="30">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    30 Minutes
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Timeframe" value="60">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    1 hours
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{row['title']}}_Timeframe" value="240">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    4 hours
+                                                </label>
+                                            </div>
+                                        </li>
+                                        </div>
+                                    </ul>
+                                    </div> 
+                                </div>    
+                            </div>
+                        </div> 
+                        {% endfor %} 
+                    </div>
+                    <div class="row mt-3 mb-5 align-items-center mx-auto">
+                        <div class="col-lg-4 mx-auto">
+                            <button type="submit" class="btn c-dark w-100">
+                            <div class="card bg-black">
+                                <div class="card-body">
+                                    <div class="card-title text-center c-dark">
+                                        บันทึก
+                                    </div>
+                                </div>
+                            </div>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </header>        
+
+        //check config users
+    <script>
+        var alert1 = "{{config['alert1']}}"
+        var label1 = "{{config['label1']}}"
+        var color1 = "{{config['color1']}}"
+        var alert1 = "{{config['alert1']}}"
+        var cryptocurrency1 = "{{config['cryptocurrency1']}}"
+        var federalcurrency1 = "{{config['federalcurrency1']}}"
+        var candlestick1 = "{{config['candlestick1']}}"
+        var category1 = "{{config['category1']}}"
+        var trend1 = "{{config['trend1']}}"
+        var timeframe1 = "{{config['timeframe1']}}"
+
+        var alert2 = "{{config['alert2']}}"
+        var label2 = "{{config['label2']}}"
+        var color2 = "{{config['color2']}}"
+        var alert2 = "{{config['alert2']}}"
+        var cryptocurrency2 = "{{config['cryptocurrency2']}}"
+        var federalcurrency2 = "{{config['federalcurrency2']}}"
+        var candlestick2 = "{{config['candlestick2']}}"
+        var category2 = "{{config['category2']}}"
+        var trend2 = "{{config['trend2']}}"
+        var timeframe2 = "{{config['timeframe2']}}"
+
+        var alert3 = "{{config['alert3']}}"
+        var label3 = "{{config['label3']}}"
+        var color3 = "{{config['color3']}}"
+        var alert3 = "{{config['alert3']}}"
+        var cryptocurrency3 = "{{config['cryptocurrency3']}}"
+        var federalcurrency3 = "{{config['federalcurrency3']}}"
+        var candlestick3 = "{{config['candlestick3']}}"
+        var category3 = "{{config['category3']}}"
+        var trend3 = "{{config['trend3']}}"
+        var timeframe3 = "{{config['timeframe3']}}"
+
+        
+        cd1 = document.getElementsByName("alert1_candlestick");
+        for (i=0;i<cd1.length;i++){
+            if (candlestick1.includes(cd1[i].value)){
+                cd1[i].checked = true;
+            }
+        }
+        cd2 = document.getElementsByName("alert2_candlestick");
+        for (i=0;i<cd2.length;i++){
+            if (candlestick2.includes(cd2[i].value)){
+                cd2[i].checked = true;
+            }
+        }
+        cd3 = document.getElementsByName("alert3_candlestick");
+        for (i=0;i<cd3.length;i++){
+            if (candlestick3.includes(cd3[i].value)){
+                cd3[i].checked = true;
+            }
+        }
+
+        c1 = document.getElementsByName("alert1_Category");
+        for (i=0;i<c1.length;i++){
+            if (category1.includes(c1[i].value)){
+                c1[i].checked = true;
+            }
+        }
+        c2 = document.getElementsByName("alert2_Category");
+        for (i=0;i<c2.length;i++){
+            if (category2.includes(c2[i].value)){
+                c2[i].checked = true;
+            }
+        }
+        c3 = document.getElementsByName("alert3_Category");
+        for (i=0;i<c3.length;i++){
+            if (category3.includes(c3[i].value)){
+                c3[i].checked = true;
+            }
+        }
+
+        t1 = document.getElementsByName("alert1_Trend");
+        for (i=0;i<t1.length;i++){
+            if (trend1.includes(t1[i].value)){
+                t1[i].checked = true;
+            }
+        }
+        t2 = document.getElementsByName("alert2_Trend");
+        for (i=0;i<t2.length;i++){
+            if (trend2.includes(t2[i].value)){
+                t2[i].checked = true;
+            }
+        }
+        t3 = document.getElementsByName("alert3_Trend");
+        for (i=0;i<t3.length;i++){
+            if (trend3.includes(t3[i].value)){
+                t3[i].checked = true;
+            }
+        }
+
+        tf1 = document.getElementsByName("alert1_Timeframe");
+        for (i=0;i<tf1.length;i++){
+            if (timeframe1.includes(tf1[i].value.replace(/&#39;/g, '"'))){
+                tf1[i].checked = true;
+            }
+        }
+        tf2 = document.getElementsByName("alert2_Timeframe");
+        for (i=0;i<tf2.length;i++){
+            if (timeframe2.includes(tf2[i].value.replace(/&#39;/g, '"'))){
+                tf2[i].checked = true;
+            }
+        }
+        tf3 = document.getElementsByName("alert3_Timeframe");
+        for (i=0;i<tf3.length;i++){
+            if (timeframe3.includes(tf3[i].value.replace(/&#39;/g, '"'))){
+                tf3[i].checked = true;
+            }
+        }
+
+        crypto1 = document.getElementsByName("alert1_cryptocurrency");
+        for (i=0;i<crypto1.length;i++){
+            if (cryptocurrency1.includes(crypto1[i].value)){
+                crypto1[i].checked = true;
+            } 
+        }
+        
+        crypto2 = document.getElementsByName("alert2_cryptocurrency");
+        for (i=0;i<crypto2.length;i++){
+            if (cryptocurrency2.includes(crypto2[i].value)){
+                crypto2[i].checked = true;
+            } 
+        }
+
+        crypto3 = document.getElementsByName("alert3_cryptocurrency");
+        for (i=0;i<crypto3.length;i++){
+            if (cryptocurrency3.includes(crypto3[i].value)){
+                crypto3[i].checked = true;
+            }
+        }
+
+        federal1 = document.getElementsByName("alert1_federalcurrency");
+        for (i=0;i<federal1.length;i++){
+            if (federalcurrency1.includes(federal1[i].value)){
+                federal1[i].checked = true;
+            } 
+        }
+        
+        federal2 = document.getElementsByName("alert2_federalcurrency");
+        for (i=0;i<federal2.length;i++){
+            if (federalcurrency2.includes(federal2[i].value)){
+                federal2[i].checked = true;
+            } 
+        }
+
+        federal3 = document.getElementsByName("alert3_federalcurrency");
+        for (i=0;i<federal3.length;i++){
+            if (federalcurrency3.includes(federal3[i].value)){
+                federal3[i].checked = true;
+            }
+        }
+
+        document.getElementById("alert1_name").value = JSON.parse(label1.replace(/&#39;/g, '"'))[0];
+        document.getElementById("alert2_name").value = JSON.parse(label2.replace(/&#39;/g, '"'))[0];
+        document.getElementById("alert3_name").value = JSON.parse(label3.replace(/&#39;/g, '"'))[0];
+
+        document.getElementById("alert1_color").value = JSON.parse(color1.replace(/&#39;/g, '"'))[0];
+        document.getElementById("alert2_color").value = JSON.parse(color2.replace(/&#39;/g, '"'))[0];
+        document.getElementById("alert3_color").value = JSON.parse(color3.replace(/&#39;/g, '"'))[0];
+
+        if (JSON.parse(alert1.replace(/&#39;/g, '"'))[0] == 'on'){
+            document.getElementById("alert1_ON").checked = true;
+            document.getElementById("alert1_img").src = "data:image/png;base64,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";                                                
+        } 
+        else {
+            document.getElementById("alert1_ON").checked = false;
+            document.getElementById("alert1_img").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFcElEQVR4nO1bTUhcVxT+YifWn6CmWSgSERJjKupCRfEnpZVaBCFYbe2qrQurxgjiwoWI0SFG8AcFNYqiCErLbFwYshAXLgRNa+JYKwghtNEqxCBkmvovOp5yH68y9Scz771znbHtBwfkOe/c+33v3vvuuec84H9IxxUAOQDMACwArACWANgAHKhmU69Z1d+Y1XvEvecSHwKoB/AzADsA0mni3hkADwDchIfjIoB8AFMGCDuznwB8C8AEDyNeAmBBIvGj9hJAsScI8RGAuTMkftR+AXDLHcR9AXSrCxi52UQfugD4nBX5mwBmPYD4UZsHEC2b/KcA1jyA7Gn2J4B0WeQ/B7DtASSd2S6Ar7jJ5wHY9wByrpro6xdc5NMB7HgAKT0j4TOOHd0ad+cuXLhAeXl51N7eTo2NjZSUlCRLhLcAbugl76NuZVk75ePjQ6Ojo+QIu91OZrNZlghz6mtbM7pldKipqUkhbbVaqaCggEpLS2lhYYEODg4oMzNTlggPtZK/JWuTY7PZFML+/v6H18LCwmhjY4OGhoZkCSC4pLpK3iRro2MymZQn3dvbe+x/4+PjikkS4O+pIOIWpyiR2Amam5ujiYkJio6OptTUVGUBFH8vLy8ri6LMtgEUOSN/UVZUFxcXR52dnbSyskKnYX5+nmpra+nq1auyBPjNWQSZz92omOv9/f3K0HcVm5ubVFlZqbwuJYjwzbsEeMrZWGBgIE1PT5NeDAwMyBDhyWnkI7nVHh4eJqOoqqqSMQpOPF6r52wkNzeXOLCzs0MRERHcAtw/SYBZzkaMDP2j6Ovr4xbg2VHyVwye3v7D4uPjiRPb29t06dIl7mjxsqMAuZwKV1dXEzdu377NPQrE+cYhzJzOJycn2QXo6uriFuCeowAWLse+vr60t7fHLsCLFy+4BfjeUQArl+PExESSAbGRCggIkLYQLnM5FiGuLKSlpXEK8LujAG+5HLe2tkoT4O7du5wCiITsIfa4HI+MjEgToKOjg1MAwZlfAHHYIQtjY2PSBHjL4dTPz08535MFEUrLmgLLHE7FIiUboaGhUhZBK4fTsrIy6QJkZ2dLeQ1aOJxaLBbpAtTX10vZCJmNOqyoqKCzwPr6OiUnJ7NvhXOMOCsuLqazhDhaj42NNSpAtqMAH+gNh6Oiomh3d5fOGouLixQUFMQWDkNvGkwkM9yFtrY2vQKIs89jeKDVkbe3N62trblNgFevXukVQKx5xxDpKZGfFgQHB+sRQHA9EZpq/HJyctzNX3kIXMfiUIsQXXZWVFTERkRL4sQR4vRZowBfw0lq7KWrzu7cuXNqx7a2tpTDTKOiCB/7+/un/iY/P581NQa1AtMlh4WFhUonX79+TUtLSwpp2RBtrK6uKvkCgZKSEi0CfAfO9Pj169eVENVdmJqaopSUFC3pcZdLa9O0FEgkJCTQ4ODgO4cqF0S4/fjxY8rIyNDy5MUmLwUa0aVxcaHIyEhqaWlRpgM3nj9/TnV1dRQeHq510RPWDp1FUjM6GiMvLy9laIoEiZgiIt2tFW/evKFHjx5ReXk5xcTE6CHtWFCtq0gK6oZBlJ8a6YAiyLVr1ygrK0shVFNTQ83NzdTT00Pd3d3U0NCgZIHFWyU9PZ1CQkIMtedgfwCIgEF8ck5KZE8qlMwAE748h6WyIt/5nyyW3pFRLO04HdiSKBJMzPmPIRk3ZJTQMtgMx4Kn5RX50EM+mbGr7/n34QYkcFeWabRZLSWwsmACUKhGWmdF/FcABQDegwfBpBYh/iiR+BM1nnf794Ku7CDvq9kXI/uHfdWH2ciHD+7GZfUMXiQifgAwDWBRTU7aVbOp156pv7mn3hPk7s7j346/AOroaNjZn0d9AAAAAElFTkSuQmCC";
+        }
+
+        if (JSON.parse(alert2.replace(/&#39;/g, '"'))[0] == 'on'){
+            document.getElementById("alert2_ON").checked = true;
+            document.getElementById("alert2_img").src = "data:image/png;base64,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";                                                
+        
+        } 
+        else {
+            document.getElementById("alert2_ON").checked = false;
+            document.getElementById("alert3_img").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFcElEQVR4nO1bTUhcVxT+YifWn6CmWSgSERJjKupCRfEnpZVaBCFYbe2qrQurxgjiwoWI0SFG8AcFNYqiCErLbFwYshAXLgRNa+JYKwghtNEqxCBkmvovOp5yH68y9Scz771znbHtBwfkOe/c+33v3vvuuec84H9IxxUAOQDMACwArACWANgAHKhmU69Z1d+Y1XvEvecSHwKoB/AzADsA0mni3hkADwDchIfjIoB8AFMGCDuznwB8C8AEDyNeAmBBIvGj9hJAsScI8RGAuTMkftR+AXDLHcR9AXSrCxi52UQfugD4nBX5mwBmPYD4UZsHEC2b/KcA1jyA7Gn2J4B0WeQ/B7DtASSd2S6Ar7jJ5wHY9wByrpro6xdc5NMB7HgAKT0j4TOOHd0ad+cuXLhAeXl51N7eTo2NjZSUlCRLhLcAbugl76NuZVk75ePjQ6Ojo+QIu91OZrNZlghz6mtbM7pldKipqUkhbbVaqaCggEpLS2lhYYEODg4oMzNTlggPtZK/JWuTY7PZFML+/v6H18LCwmhjY4OGhoZkCSC4pLpK3iRro2MymZQn3dvbe+x/4+PjikkS4O+pIOIWpyiR2Amam5ujiYkJio6OptTUVGUBFH8vLy8ri6LMtgEUOSN/UVZUFxcXR52dnbSyskKnYX5+nmpra+nq1auyBPjNWQSZz92omOv9/f3K0HcVm5ubVFlZqbwuJYjwzbsEeMrZWGBgIE1PT5NeDAwMyBDhyWnkI7nVHh4eJqOoqqqSMQpOPF6r52wkNzeXOLCzs0MRERHcAtw/SYBZzkaMDP2j6Ovr4xbg2VHyVwye3v7D4uPjiRPb29t06dIl7mjxsqMAuZwKV1dXEzdu377NPQrE+cYhzJzOJycn2QXo6uriFuCeowAWLse+vr60t7fHLsCLFy+4BfjeUQArl+PExESSAbGRCggIkLYQLnM5FiGuLKSlpXEK8LujAG+5HLe2tkoT4O7du5wCiITsIfa4HI+MjEgToKOjg1MAwZlfAHHYIQtjY2PSBHjL4dTPz08535MFEUrLmgLLHE7FIiUboaGhUhZBK4fTsrIy6QJkZ2dLeQ1aOJxaLBbpAtTX10vZCJmNOqyoqKCzwPr6OiUnJ7NvhXOMOCsuLqazhDhaj42NNSpAtqMAH+gNh6Oiomh3d5fOGouLixQUFMQWDkNvGkwkM9yFtrY2vQKIs89jeKDVkbe3N62trblNgFevXukVQKx5xxDpKZGfFgQHB+sRQHA9EZpq/HJyctzNX3kIXMfiUIsQXXZWVFTERkRL4sQR4vRZowBfw0lq7KWrzu7cuXNqx7a2tpTDTKOiCB/7+/un/iY/P581NQa1AtMlh4WFhUonX79+TUtLSwpp2RBtrK6uKvkCgZKSEi0CfAfO9Pj169eVENVdmJqaopSUFC3pcZdLa9O0FEgkJCTQ4ODgO4cqF0S4/fjxY8rIyNDy5MUmLwUa0aVxcaHIyEhqaWlRpgM3nj9/TnV1dRQeHq510RPWDp1FUjM6GiMvLy9laIoEiZgiIt2tFW/evKFHjx5ReXk5xcTE6CHtWFCtq0gK6oZBlJ8a6YAiyLVr1ygrK0shVFNTQ83NzdTT00Pd3d3U0NCgZIHFWyU9PZ1CQkIMtedgfwCIgEF8ck5KZE8qlMwAE748h6WyIt/5nyyW3pFRLO04HdiSKBJMzPmPIRk3ZJTQMtgMx4Kn5RX50EM+mbGr7/n34QYkcFeWabRZLSWwsmACUKhGWmdF/FcABQDegwfBpBYh/iiR+BM1nnf794Ku7CDvq9kXI/uHfdWH2ciHD+7GZfUMXiQifgAwDWBRTU7aVbOp156pv7mn3hPk7s7j346/AOroaNjZn0d9AAAAAElFTkSuQmCC";
+ 
+        }
+
+        if (JSON.parse(alert3.replace(/&#39;/g, '"'))[0] == 'on'){
+            document.getElementById("alert3_ON").checked = true;
+            document.getElementById("alert3_img").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGSElEQVR4nO1be2xTVRj/bRTWMfcAMoFtPDZcOx5jjmYI7NHe7iFgkIcMEmAMlGnQgERdfIThQCZgVJAQxEQhIeoGPgGJAcmUhNeYHRsMYoB17dZu4B+I/CNG8DOn3s2ydWvv7TlrUb/klyx3Pd85v9+995zvfOe7wP8m3IYAmAugHEAlAAuAFgA3APwp44Z8zSL/plxuw9rel5YCoALAOQB3AZBKsLZ1ADYC0CPIrT+AYgA1fhD2hjMAlgLQIMiIrwTQLJB4V1gBPBMMQmQDON+HxLuiAUBWIIiHA9glT2AUYLAx7ASg7SvyegD1QUC8Ky4CGC+afC6AW0FAtif8CkASRX4OgN+CgKQ3/A5gAW/yhQDuBAE5X8HG+gQv8hKA20FASs2TkM8jorvFe3AhIaDHZw2lNzfqad3aZJqUHiVKhJsAktWS18qhLNdBhYWF0v6qdPq5Pa8T15y5VPpSkigRzsvLtmLbJWJAr5clu0gfO/oILV4UR08uH0GWs5l0vS2PJNMQUSLsUEo+S1SQc/kno4vwwIH9Oq/Fx2nJ1iTR7g8nihKAcZnmK3mNqEBHowlx3el33x7b7X8HvjK4IEiAjleB7Vu82kqBg6Dj1VPomwMZpNdHUEZGtGsCTNFHUH1dlmtSFNk3gKe9ke8valeXOiGStmxKocaG7HsmwA6wJ+PE8alU+mISxQ0PEyVAk7cdZDHvTtm7/t7WcS6Cnoh7gt0q0epVo13LpQARinoT4CzPzqKiNPTdkck+E++KHdvHixDhVE/kdbzV3rsnTTX5Dqx5PlHEU+AxvVbBs5PHZj7oN3kGh91MiYkDeQuwwZMA9Tw78efR74qt74zjLUBtV/JD/Mze3oOJqZHcyDO02swUEfFP4MRptzjIXYB5PBV+YU0iVwEYHi2I5f0UsPxGp5XzdH74YAZ3Ad7anMJbgDJ3ASp5OdZqQ6mtNZe7AGdOTuMtwMfuAlh4OU5/OIo7eQYWSEVGaoRNhK28HLMtrggBGCZnxPAUwO4uwE1ejjes1wkTYPmyBJ4CsAPZTvuDl+OqT+/N9vDEpgquu0XGmb8ALNkhSoAvPpskTICbPJyGh/dz5fdECdDYkCPsFWjl4ZRNUqLId2DYsDAhk6CFh9OSFSOECzB9eqyQZbCSh9MP3k8VLsBrr4wREgiV++vw2ZWjhJNnaL4qkcEQzT0UnuuPs+Ki+D4h3wGWWh879gF/BZjtLsBgtdthXXIEOVrMfSoAQ11tFkVHabhth6H2GIwdZvQ1+Q5UvKE6MGK5z262UamjAf1DyXpFCpgAF+qz1QrA5rxupguWnZ8SxMYOUCMA4+rRFNX4zZzBJ/HpD9hN4JUWh1yE6LOzpUtUzv5tbH+fT9ccBXTNWeD6+7pTnQAs+6xQgCXwcjRm9dVZ8dKEHgdmvyKRvcFE7XVmajshkfOoRI5DJrKdnkVNFwu7o7GQHIfM5DxsIme1RO2nJWpvMFPLJYnae8kwLVwwnOvRGOQKTJ8cFi2Od2VqGs/lkKU6k6zfG8l5RCLH50Zq3ecZVss8zwJcLKSWw/me2+03keOAidqqJWo+aaRLtTnksP299C4rVpQjWAGex+Oj48Np3/q0Hsl6FKBmds8CfJ3ru6/9Rjq0zUCGtGglx+M+l9ZmKimQSE2KpG3PpZCtMsfrwO3fFngkbz07xyfi9ioj7Xl5AmWnDlJy51mQNxUKbafCyYWShofTuqIxVLNzSq8kbMdmUNOF+Z3km2vmUOuX5l7b/LA1g0oXjqaEWK3SSY9hO1QWSdWp6IxCQ0AGXRStnjeKqsrS6PLebI/vdcvBPGrpgfiFjzJpd+kEWjEzgfQjItSQdi+oVlUkBTlgYOWn/gzAJcjIoVoypw92EVozfxStXZJEm0t0tKlER68uSqJVc0dSUX4cTRsfQ7ExqoIbT/gFwEPw00z3SYmsp0LJPHCy+fdhqSw77/xPFkvfFlEs7f46cDtEEQD2zhsh2JJFlNByQB2PCU/JErkjSD6ZuSuv82EIgBl4V5YpRL2SElhRpgFQIu+0+or4VQBPAeiHIDKNXIR4WiDxU/J+PuDfC/oSQW6QT1/8iR/uyD7K/fnwIdA2SM7Bs4OITwD8CMAmH07elXFDvlYr/6ZMbhMT6MHj325/AWYZWMFV4PLPAAAAAElFTkSuQmCC";                                                
+        
+        } 
+        else {
+            document.getElementById("alert3_ON").checked = false;
+            document.getElementById("alert3_img").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFcElEQVR4nO1bTUhcVxT+YifWn6CmWSgSERJjKupCRfEnpZVaBCFYbe2qrQurxgjiwoWI0SFG8AcFNYqiCErLbFwYshAXLgRNa+JYKwghtNEqxCBkmvovOp5yH68y9Scz771znbHtBwfkOe/c+33v3vvuuec84H9IxxUAOQDMACwArACWANgAHKhmU69Z1d+Y1XvEvecSHwKoB/AzADsA0mni3hkADwDchIfjIoB8AFMGCDuznwB8C8AEDyNeAmBBIvGj9hJAsScI8RGAuTMkftR+AXDLHcR9AXSrCxi52UQfugD4nBX5mwBmPYD4UZsHEC2b/KcA1jyA7Gn2J4B0WeQ/B7DtASSd2S6Ar7jJ5wHY9wByrpro6xdc5NMB7HgAKT0j4TOOHd0ad+cuXLhAeXl51N7eTo2NjZSUlCRLhLcAbugl76NuZVk75ePjQ6Ojo+QIu91OZrNZlghz6mtbM7pldKipqUkhbbVaqaCggEpLS2lhYYEODg4oMzNTlggPtZK/JWuTY7PZFML+/v6H18LCwmhjY4OGhoZkCSC4pLpK3iRro2MymZQn3dvbe+x/4+PjikkS4O+pIOIWpyiR2Amam5ujiYkJio6OptTUVGUBFH8vLy8ri6LMtgEUOSN/UVZUFxcXR52dnbSyskKnYX5+nmpra+nq1auyBPjNWQSZz92omOv9/f3K0HcVm5ubVFlZqbwuJYjwzbsEeMrZWGBgIE1PT5NeDAwMyBDhyWnkI7nVHh4eJqOoqqqSMQpOPF6r52wkNzeXOLCzs0MRERHcAtw/SYBZzkaMDP2j6Ovr4xbg2VHyVwye3v7D4uPjiRPb29t06dIl7mjxsqMAuZwKV1dXEzdu377NPQrE+cYhzJzOJycn2QXo6uriFuCeowAWLse+vr60t7fHLsCLFy+4BfjeUQArl+PExESSAbGRCggIkLYQLnM5FiGuLKSlpXEK8LujAG+5HLe2tkoT4O7du5wCiITsIfa4HI+MjEgToKOjg1MAwZlfAHHYIQtjY2PSBHjL4dTPz08535MFEUrLmgLLHE7FIiUboaGhUhZBK4fTsrIy6QJkZ2dLeQ1aOJxaLBbpAtTX10vZCJmNOqyoqKCzwPr6OiUnJ7NvhXOMOCsuLqazhDhaj42NNSpAtqMAH+gNh6Oiomh3d5fOGouLixQUFMQWDkNvGkwkM9yFtrY2vQKIs89jeKDVkbe3N62trblNgFevXukVQKx5xxDpKZGfFgQHB+sRQHA9EZpq/HJyctzNX3kIXMfiUIsQXXZWVFTERkRL4sQR4vRZowBfw0lq7KWrzu7cuXNqx7a2tpTDTKOiCB/7+/un/iY/P581NQa1AtMlh4WFhUonX79+TUtLSwpp2RBtrK6uKvkCgZKSEi0CfAfO9Pj169eVENVdmJqaopSUFC3pcZdLa9O0FEgkJCTQ4ODgO4cqF0S4/fjxY8rIyNDy5MUmLwUa0aVxcaHIyEhqaWlRpgM3nj9/TnV1dRQeHq510RPWDp1FUjM6GiMvLy9laIoEiZgiIt2tFW/evKFHjx5ReXk5xcTE6CHtWFCtq0gK6oZBlJ8a6YAiyLVr1ygrK0shVFNTQ83NzdTT00Pd3d3U0NCgZIHFWyU9PZ1CQkIMtedgfwCIgEF8ck5KZE8qlMwAE748h6WyIt/5nyyW3pFRLO04HdiSKBJMzPmPIRk3ZJTQMtgMx4Kn5RX50EM+mbGr7/n34QYkcFeWabRZLSWwsmACUKhGWmdF/FcABQDegwfBpBYh/iiR+BM1nnf794Ku7CDvq9kXI/uHfdWH2ciHD+7GZfUMXiQifgAwDWBRTU7aVbOp156pv7mn3hPk7s7j346/AOroaNjZn0d9AAAAAElFTkSuQmCC";
+ 
+        }
+
+    </script>
+
+        <!-- App badge section-->
+        <section class="bg-gradient-primary-to-secondary" id="download">
+            <div class="container px-5">
+                <h2 class="text-center text-white font-alt mb-4">ผู้ใช้งานต้องเพิ่มเราเป็นเพื่อนทางไลน์เพื่ออนุญาติให้บอทส่งแจ้งเตือนสัญญาณแนวโน้ม</h2>
+                <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+                    <a href="https://lin.ee/2N7v1xn"><img class="app-badge" style="border-radius:5px;" src="{{url_for('.static', filename='img/Logo_LINE-Account.png')}}" alt="..." /></a>
+                </div>                                       
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="text-white-50 small">
+                    <div class="mb-2">&copy; Your Website 2022. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Feedback Modal-->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Send feedback</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- * * SB Forms Contact Form * *-->
+                        <!-- * * * * * * * * * * * * * * *-->
+                        <!-- This form is pre-integrated with SB Forms.-->
+                        <!-- To make this form functional, sign up at-->
+                        <!-- https://startbootstrap.com/solution/contact-forms-->
+                        <!-- to get an API token!-->
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Full name</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Message</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Form submission successful!</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var exp_alert = "{{exp_alert}}"
+
+            if(exp_alert){
+                Swal.fire({
+                icon: 'success',
+                title: exp_alert,
+                showConfirmButton: false,
+                timer: 1500
+                })
+            }
+        </script>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('.static', filename='js/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/scripts.js')}}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+        <!-- Dark mode -->
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.min.js')}}"></script>
+        <script src="{{url_for('.static', filename='js/dark-mode-switch.js')}}"></script>
+
+    </body>
+</html>
