@@ -66,7 +66,7 @@
 ระบบใช้ Dockerfile สามารถติดตั้งโดยใช้ Dockerfile ได้เลย หรือท่านใดที่ต้องการรันเว็บไซต์ไว้ทดสอบบนเครื่องของตนเองสามารถทำตามขึ้นตอนได้ตั้งนี้
 1.ติดตั้ง python เวอร์ชัน 3.9.10
 2.ติดตั้ง library ของ python 
-RUN pip install Flask gunicorn line_bot_sdk requests Flask-Session Flask-SQLAlchemy sqlalchemy pymysql pg8000 line-bot-sdk pytz backtesting yfinance scipy
+2.1 RUN pip install Flask gunicorn line_bot_sdk requests Flask-Session Flask-SQLAlchemy sqlalchemy pymysql pg8000 line-bot-sdk pytz backtesting yfinance scipy
 3.เข้าไปแก้ไขไฟล์ app.py เปลี่ยนรหัส *เชื่อมserver เว็บไซต์เข้ากับ ฐานข้อมูล cloud sql ของตนเอง
 3.1 USERNAME 
 3.2 PASSWORD
