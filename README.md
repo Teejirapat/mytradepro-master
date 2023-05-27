@@ -64,18 +64,18 @@
 
 # Header วิธีติดตั้ง
 ระบบใช้ Dockerfile สามารถติดตั้งโดยใช้ Dockerfile ได้เลย หรือท่านใดที่ต้องการรันเว็บไซต์ไว้ทดสอบบนเครื่องของตนเองสามารถทำตามขึ้นตอนได้ตั้งนี้
-1.ติดตั้ง python เวอร์ชัน 3.9.10
-2.ติดตั้ง library ของ python 
-2.1 RUN pip install Flask gunicorn line_bot_sdk requests Flask-Session Flask-SQLAlchemy sqlalchemy pymysql pg8000 line-bot-sdk pytz backtesting yfinance scipy
-3.เข้าไปแก้ไขไฟล์ app.py เปลี่ยนรหัส *เชื่อมserver เว็บไซต์เข้ากับ ฐานข้อมูล cloud sql ของตนเอง
-3.1 USERNAME 
-3.2 PASSWORD
-3.3 DBNAME
-3.4 PROJECT_ID
-3.5 INSTANCE_NAME
+1.──ติดตั้ง python เวอร์ชัน 3.9.10
+2.──ติดตั้ง library ของ python 
+2.1── pip install Flask gunicorn line_bot_sdk requests Flask-Session Flask-SQLAlchemy sqlalchemy pymysql pg8000 line-bot-sdk pytz backtesting yfinance scipy
+3.──เข้าไปแก้ไขไฟล์ app.py เปลี่ยนรหัส *เชื่อมserver เว็บไซต์เข้ากับ ฐานข้อมูล cloud sql ของตนเอง
+3.1── USERNAME 
+3.2── PASSWORD
+3.3── DBNAME
+3.4── PROJECT_ID
+3.5── INSTANCE_NAME
 *แก้ไขค่าเหล่านี้ให้ตรงกับ clound sql ของตนเอง 
 
-4. รัน server ด้วยคำสั่ง python app.py
+4.── รัน server ด้วยคำสั่ง python app.py
 
 
 วิธีรันผ่าน google cloud server
@@ -103,7 +103,7 @@
 11.พิมคำสั่ง  use mytradepro;
 12.สร้าง 2 table ที่เว็บไซต์ต้องใช้โดยพิมพ์ตามนี้
 12.1 สร้าง  users table
-
+``` bash
 CREATE TABLE users 
 (
     id init NOT NULL AUTO_INCREMENT,
@@ -142,8 +142,10 @@ CREATE TABLE users
     updated_at TIMESTAMP NULL,
     PRIMARY KEY (id)
 );
+```
 
 12.2 สร้าง alert table
+``` bash
 CREATE TABLE alert
 (
     id int NOT NULL AUTO_INCREMENT,
@@ -159,7 +161,7 @@ CREATE TABLE alert
     ts TIMESTAMP NULL,
     PRIMARY KEY(id)
 );
-
+```
 13. สร้าง ฐานข้อมูลเตรียมใช้สมบรูณ์ มาเริ่มสร้าง server ของเว็บไซต์กัน
 14.มาเริ่มสร้าง server กัน เลือกเมนู Cloud Run และกดปุ่ม create service
 ![image](https://github.com/Teejirapat/mytradepro-master/assets/64017291/6ea424ac-1bd1-44b5-a094-dcdc605674e3)
